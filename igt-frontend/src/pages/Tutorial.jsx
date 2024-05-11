@@ -8,7 +8,13 @@ import 'swiper/css/effect-coverflow';
 // import required modules
 import { EffectCoverflow} from 'swiper/modules';
 import { CircleCheck } from "lucide-react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 const Tutorial = () => {
+  const [review,setReview] = useState(null);
+  useEffect(()=>{
+   axios.get("http://localhost:5000/reviews").then((res)=>{setReview(res.data)});
+  },[])
   return (
     <div className="flex w-full gap-4 min-h-screen justify-center items-center px-[6vw] pt-12">
       <div className="w-[60%] relative flex items-center justify-center bg-cover bg-no-repeat bg-[url('./map.png')]">
@@ -28,21 +34,13 @@ const Tutorial = () => {
         modules={[EffectCoverflow]}
         className="mySwiper ml-20 mr-12"
       >
-        <SwiperSlide>
-          <Card star={4} reviews={392} watched="2,538" title="How to work with prototype design with adobe xd featuring tools"/>
+        {review &&
+        review.map((rev,idx)=>
+        <SwiperSlide key={idx}>
+          <Card image={rev.image} star={rev.star} reviews={rev.review} watched={rev.watched} title={rev.title}/>
         </SwiperSlide>
-        <SwiperSlide>
-          <Card star={4} reviews={392} watched="2,538" title="How to work with prototype design with adobe xd featuring tools"/>
-        </SwiperSlide>
-        <SwiperSlide>
-          <Card star={4} reviews={392} watched="2,538" title="How to work with prototype design with adobe xd featuring tools"/>
-        </SwiperSlide>
-        <SwiperSlide>
-          <Card star={4} reviews={392} watched="2,538" title="How to work with prototype design with adobe xd featuring tools"/>
-        </SwiperSlide>
-        <SwiperSlide>
-          <Card star={4} reviews={392} watched="2,538" title="How to work with prototype design with adobe xd featuring tools"/>
-        </SwiperSlide>
+        )
+        }
       </Swiper>
       </div>
       <div className="w-[40%] flex flex-col justify-center -mt-24">
