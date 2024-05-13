@@ -37,7 +37,8 @@ app.post("/update/:id",authenticateToken,async (req,res)=>{
     res.status(201).json({message:"Review Updated Successfully"})
 })
 app.post("/delete/:id",authenticateToken,async (req,res)=>{
-    const update = await Review.findByIdAndDelete(req.params.id,(err,user)=>{if(err){return res.status(401).json({message:"Error Deleting"})}else{return res.status(201).json({message:"Deleted Successfully"})}});
+    const update = await Review.findByIdAndDelete(req.params.id);
+    res.status(201).json({message:"Deleted Successfully"});
 })
 app.post("/register",async function(req,res){
     const {name,email,password} = req.body;
